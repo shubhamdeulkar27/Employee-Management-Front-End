@@ -64,7 +64,10 @@ class Register extends Component {
           debugger;
           this.props.history.push("/Register");
         }
-      });
+      })
+      .catch(function (error) {
+        console.log(error);
+    });
   };
 
   render() {

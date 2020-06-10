@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
+import ApiService from '../service/ApiService';
 
 class Login extends Component {
   constructor(props) {
@@ -36,21 +37,51 @@ class Login extends Component {
   }
 
   login = () => {
-    axios
-      .post("https://localhost:44315/api/employee/login", {
-        UserName: this.state.UserName,
-        Password: this.state.Password,
-      })
-      .then((json) => {
-        if (json.data.Success === "True") {
-          console.log(json.data.Success);
-          this.props.history.push("/Dashboard");
+    console.log(this.state);
+    const user = {
+      userName: this.state.UserName,
+      password: this.state.Password
+    }
+
+    axios.post('https://localhost:44315/api/employee/login', user)
+      .then(response => {
+        console.log("Response after login ",response);
+        console.log("Response Data after login ",response.data.data);
+       /* if (response.data.Success === "True") {
+          console.log(response.data.Success);
+          this.props.history.push("/EmployeeList");
         } else {
           alert("Invalid User");
           debugger;
           this.props.history.push("/Login");
         }
-      });
+        */
+      })
+      .catch(function (error) {
+        console.log(error);
+    });
+  };
+
+  Login = (u) => {
+    u.preventDefault();
+    console.log(this.state);
+    let user = {
+      userName: this.state.UserName,
+      password: this.state.Password
+    };
+    ApiService.loginUser(user)
+    .then((response) => {
+      console.log("response after login",response);
+      if(response.data.success == "True")
+      {
+        this.props.history.push("/EmployeeList");
+      } else{
+        this.props.history.push("/Login");
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+  });
   };
 
   render() {
@@ -112,7 +143,7 @@ class Login extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={this.login}
+              onClick={this.Login}
             >
               Login
             </Button>
