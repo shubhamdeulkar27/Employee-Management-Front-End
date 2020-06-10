@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
-import ApiService from '../service/ApiService';
+import ApiService from "../service/ApiService";
 
 class Login extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class Login extends Component {
 
     this.UserName = this.UserName.bind(this);
     this.Password = this.Password.bind(this);
-    this.login = this.login.bind(this);
+    this.Login = this.Login.bind(this);
   }
 
   UserName(event) {
@@ -36,52 +36,28 @@ class Login extends Component {
     this.setState({ Password: event.target.value });
   }
 
-  login = () => {
-    console.log(this.state);
-    const user = {
-      userName: this.state.UserName,
-      password: this.state.Password
-    }
-
-    axios.post('https://localhost:44315/api/employee/login', user)
-      .then(response => {
-        console.log("Response after login ",response);
-        console.log("Response Data after login ",response.data.data);
-       /* if (response.data.Success === "True") {
-          console.log(response.data.Success);
-          this.props.history.push("/EmployeeList");
-        } else {
-          alert("Invalid User");
-          debugger;
-          this.props.history.push("/Login");
-        }
-        */
-      })
-      .catch(function (error) {
-        console.log(error);
-    });
-  };
-
   Login = (u) => {
     u.preventDefault();
     console.log(this.state);
     let user = {
       userName: this.state.UserName,
-      password: this.state.Password
+      password: this.state.Password,
     };
     ApiService.loginUser(user)
-    .then((response) => {
-      console.log("response after login",response);
-      if(response.data.success == "True")
-      {
-        this.props.history.push("/EmployeeList");
-      } else{
-        this.props.history.push("/Login");
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-  });
+      .then((response) => {
+        console.log("response after login", response);
+        if (response.data.success == "True") {
+          console.log(response.data.success);
+          alert("Login Successful");
+          this.props.history.push("/EmployeeList");
+        } else {
+          alert("Login Failed");
+          this.props.history.push("/Login");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   render() {

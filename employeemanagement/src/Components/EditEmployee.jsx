@@ -9,13 +9,13 @@ class EditEmployee extends Component {
     super(props);
     this.state = {
       id: "",
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      emailId: this.state.emailId,
-      mobile: this.state.mobile,
-      address: this.state.address,
-      birthdate: this.state.birthdate,
-      employment: this.state.employment,
+      firstName: "",
+      lastName: "",
+      emailId: "",
+      mobile: "",
+      address: "",
+      birthdate: "",
+      employment: "",
     };
     this.saveEmplyoee = this.saveEmployee.bind(this);
     this.loadEmployee = this.loadEmployee.bind(this);
@@ -28,7 +28,7 @@ class EditEmployee extends Component {
   loadEmployee() {
     ApiService.fetchEmployeeById(window.localStorage.getItem("Id")).then(
       (res) => {
-        let employee = res.data.result;
+        let employee = res.data.data;
         this.setState({
           id: employee.id,
           firstName: employee.firstName,
@@ -36,7 +36,7 @@ class EditEmployee extends Component {
           emailId: employee.emailId,
           mobile: employee.mobile,
           address: employee.address,
-          birthdate: employee.birthdate,
+          birthdate: employee.birthDate,
           employment: employee.employment,
         });
       }

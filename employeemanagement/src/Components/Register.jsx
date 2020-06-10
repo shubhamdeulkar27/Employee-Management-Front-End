@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import ApiService from "../service/ApiService";
 
 class Register extends Component {
   constructor(props) {
@@ -46,17 +47,20 @@ class Register extends Component {
     this.setState({ Password: event.target.value });
   }
 
-  Register = () => {
-    axios
-      .post("https://localhost:44315/api/employee/registeruser", {
-        Role: this.state.Role,
-        EmailId: this.state.EmailId,
-        UserName: this.state.UserName,
-        Password: this.state.Password,
-      })
-      .then((json) => {
-        if (json.data.Success === "True") {
-          console.log(json.data.Success);
+  Register = (u) => {
+    u.preventDefault();
+    console.log(this.state);
+    let user = {
+      role: this.state.Role,
+      emailId: this.state.EmailId,
+      userName: this.state.UserName,
+      password: this.state.Password,
+    };
+    ApiService.registerUser(user)
+      .then((response) => {
+        console.log("response after Register", response);
+        if (response.data.success == "True") {
+          console.log(response.data.success);
           alert("Data Saved Successfully");
           this.props.history.push("/Login");
         } else {
@@ -67,7 +71,7 @@ class Register extends Component {
       })
       .catch(function (error) {
         console.log(error);
-    });
+      });
   };
 
   render() {

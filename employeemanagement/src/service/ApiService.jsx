@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const Employee_API_BASE_URL = "https://localhost:44315/api/employee";
 
 class ApiService {
@@ -24,9 +23,14 @@ class ApiService {
     return axios.put(Employee_API_BASE_URL + "/" + employee.id, employee);
   }
 
-  loginUser(user){
-    console.log("Data",user);
-    return axios.post(Employee_API_BASE_URL+"/login",user);
+  loginUser(user) {
+    console.log("Data", user);
+    return axios.post(Employee_API_BASE_URL + "/login", user);
+  }
+
+  registerUser(user) {
+    console.log("Data", user);
+    return axios.post(Employee_API_BASE_URL + "/registeruser", user);
   }
 }
 
